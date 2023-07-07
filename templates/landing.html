@@ -10,20 +10,41 @@
 <body>
     <div class="container">
         <h1>Welcome to the BMI App</h1>
-        <p>Log in to calculate your BMI or register if you don't have an account.</p>
 
         <!-- Login Form -->
-        <form action="{{ url_for('landing') }}" method="post" class="login-form">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <input type="submit" value="Log In" class="btn">
-        </form>
+        <div id="login-form" class="form">
+            <form action="{{ url_for('landing') }}" method="post">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="submit" value="Log In" class="btn">
+            </form>
+            <p>Don't have an account? <a href="javascript:void(0);" onclick="toggleForms()">Register</a></p>
+        </div>
 
-        <!-- Register Button -->
-        <div class="buttons">
-            <p>Don't have an account?</p>
-            <a href="{{ url_for('register') }}" class="btn">Register</a>
+        <!-- Registration Form -->
+        <div id="register-form" class="form" style="display:none;">
+            <form action="{{ url_for('register') }}" method="post">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+                <input type="submit" value="Register" class="btn">
+            </form>
+            <p>Already have an account? <a href="javascript:void(0);" onclick="toggleForms()">Log In</a></p>
         </div>
     </div>
+
+    <script>
+        function toggleForms() {
+            var loginForm = document.getElementById("login-form");
+            var registerForm = document.getElementById("register-form");
+            if (loginForm.style.display === "none") {
+                loginForm.style.display = "block";
+                registerForm.style.display = "none";
+            } else {
+                loginForm.style.display = "none";
+                registerForm.style.display = "block";
+            }
+        }
+    </script>
 </body>
 </html>

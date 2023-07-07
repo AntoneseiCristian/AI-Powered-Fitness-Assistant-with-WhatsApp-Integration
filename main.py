@@ -46,18 +46,26 @@ def landing():
         flash('Login failed. Check your username and/or password.', 'danger')
     return render_template('landing.html')
 
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+
+        # Check if password and confirm password match
+        if password != confirm_password:
+            flash('Passwords do not match.', 'danger')
+            return redirect(url_for('landing'))
+
         hashed_password = generate_password_hash(password, method='sha256')
         new_user = User(username=username, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
         flash('Registration successful. You can now log in.', 'success')
         return redirect(url_for('landing'))
-    return render_template('register.html')
+    return render_template('landing.html')
 
 @login_manager.user_loader
 def load_user(user_id):
