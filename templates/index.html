@@ -7,14 +7,19 @@
 </head>
 <body>
     <div class="container">
+        <div class="language-selection">
+            <a href="{{ url_for('setlang', lang='en') }}">English</a> |
+            <a href="{{ url_for('setlang', lang='ro') }}">Română</a>
+        </div>
         <form action="/" method="post">
-            <input type="number" name="weight" placeholder="Weight in kg" required>
-            <input type="number" name="height" placeholder="Height in cm" required>
-            <input type="submit" value="Calculate BMI">
+            <input type="number" name="weight" placeholder="{{ _('Weight in kg') }}" required>
+            <input type="number" name="height" placeholder="{{ _('Height in cm') }}" required>
+            <input type="submit" value="{{ _('Calculate BMI') }}">
         </form>
         <div class="result">
             {% if bmi %}
-                <p>Your BMI is: {{ bmi }}</p>
+                <p>{{ _('Your BMI is:') }} {{ bmi }}</p>
+                <p>{{ recommendation }}</p>
             {% endif %}
         </div>
     </div>

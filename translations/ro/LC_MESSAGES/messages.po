@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ro\n"
+
+msgid "Weight in kg"
+msgstr "Greutate în kg"
+
+msgid "Height in cm"
+msgstr "Înălțime în cm"
+
+msgid "Calculate BMI"
+msgstr "Calculează IMC"
+
+msgid "Your BMI is:"
+msgstr "Indicele tău de masă corporală este:"
+
+msgid "You are underweight. It's recommended to consult a nutritionist for a balanced diet plan."
+msgstr "Ești subponderal. Se recomandă consultarea unui nutriționist pentru un plan alimentar echilibrat."
+
+msgid "You have a normal weight. Keep maintaining a balanced diet and regular physical activity."
+msgstr "Ai o greutate normală. Continuă să menții o dietă echilibrată și o activitate fizică regulată."
+
+msgid "You are overweight. Consider a balanced diet and regular physical activity. Consult a healthcare professional if needed."
+msgstr "Ești supraponderal. Ia în considerare o dietă echilibrată și activitate fizică regulată. Consultă un medic dacă este necesar."
+
+msgid "You are in the obesity range. It's highly recommended to consult a healthcare professional for guidance and support."
+msgstr "Ești în categoria obezității. Este foarte recomandat să consulți un medic pentru îndrumare și sprijin."
