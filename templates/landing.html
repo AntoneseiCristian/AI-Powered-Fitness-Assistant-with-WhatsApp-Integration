@@ -11,6 +11,17 @@
     <div class="container">
         <h1>Welcome to the BMI App</h1>
 
+        <!-- Display Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
         <!-- Login Form -->
         <div id="login-form" class="form">
             <form action="{{ url_for('landing') }}" method="post">
@@ -44,6 +55,12 @@
                 loginForm.style.display = "none";
                 registerForm.style.display = "block";
             }
+        }
+
+        // Keep the registration form visible if there was an error
+        if (window.location.search.includes('register=true')) {
+            document.getElementById("login-form").style.display = "none";
+            document.getElementById("register-form").style.display = "block";
         }
     </script>
 </body>
