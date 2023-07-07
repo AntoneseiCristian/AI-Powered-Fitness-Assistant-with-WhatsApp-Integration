@@ -47,3 +47,42 @@ p {
 .result {
     margin-top: 20px;
 }
+
+
+.container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.buttons {
+    margin-top: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border-radius: 8px;
+}
+
+.btn:hover {
+    background-color: #45a049;
+}
+
+.login-form {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.login-form input[type="text"], .login-form input[type="password"] {
+    margin: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
