@@ -1,15 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_babel import Babel, _
+from database import db  # Import db from database.py
 
 app = Flask(__name__)
 app.secret_key = 'secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bmi_app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+db.init_app(app)  # Initialize db with the app
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'landing'  # Updated to 'landing'
@@ -25,6 +26,14 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
+
+    def __repr__(self):
+        return f'<User {self.username}>'
+
+# Import BMIRecord after User has been defined
+from BMIRecord import BMIRecord
+
+User.bmi_records = db.relationship('BMIRecord', backref='user', lazy=True)
 
 with app.app_context():
     db.create_all()
@@ -45,7 +54,6 @@ def landing():
             return redirect(url_for('index'))
         flash('Login failed. Check your username and/or password.', 'danger')
     return render_template('landing.html')
-
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -83,14 +91,23 @@ def home():
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    bmi = ''
+    # Get the latest BMI record of the current user
+    bmi_record = BMIRecord.query.filter_by(user_id=current_user.id).order_by(BMIRecord.date.desc()).first()
+    bmi = bmi_record.bmi if bmi_record else None
     recommendation = ''
     if request.method == 'POST' and 'weight' in request.form and 'height' in request.form:
         weight = float(request.form.get('weight'))
         height = float(request.form.get('height'))
         bmi = calculate_bmi(weight, height)
         recommendation = get_recommendation(bmi)
-    return render_template('index.html', bmi=bmi, recommendation=recommendation)
+        # Create a new BMIRecord and save it to the current user
+        new_bmi_record = BMIRecord(bmi=bmi, user_id=current_user.id)
+        db.session.add(new_bmi_record)
+        db.session.commit()
+    return render_template('index.html', bmi=bmi, recommendation=recommendation, bmi_record=bmi_record)
+
+
+
 
 def calculate_bmi(weight, height):
     return round(weight / ((height / 100) ** 2), 2)
