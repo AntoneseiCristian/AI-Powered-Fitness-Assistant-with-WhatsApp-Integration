@@ -8,6 +8,15 @@
     <title>BMI App</title>
 </head>
 <body>
+    <div class="navbar">
+        <div class="language-selection">
+            <a href="{{ url_for('setlang', lang='en') }}">English</a> |
+            <a href="{{ url_for('setlang', lang='ro') }}">Română</a>
+        </div>
+        <div class="logout-button">
+            <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+        </div>
+    </div>
     <div class="container">
         <h1>Welcome to the BMI App</h1>
 

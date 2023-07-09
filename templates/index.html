@@ -6,11 +6,16 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="container">
+    <div class="navbar">
         <div class="language-selection">
             <a href="{{ url_for('setlang', lang='en') }}">English</a> |
             <a href="{{ url_for('setlang', lang='ro') }}">Română</a>
         </div>
+        <div class="logout-button">
+            <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+        </div>
+    </div>
+    <div class="container">
         <form action="/index" method="post">
             <input type="number" name="weight" placeholder="{{ _('Weight in kg') }}" required>
             <input type="number" name="height" placeholder="{{ _('Height in cm') }}" required>
@@ -18,10 +23,11 @@
         </form>
         <div class="result">
             {% if bmi %}
-                <p>Your latest BMI was calculated on {{ bmi_record.date.strftime('%Y-%m-%d') }}.</p>
-                <p>{{ _('Your last calculated BMI is:') }} {{ bmi }}</p>
+                {% if bmi_record %}
+                    <p>Your latest BMI was calculated on {{ bmi_record.date.strftime('%Y-%m-%d') }}.</p>
+                {% endif %}
+                <p>{{ _('Your BMI is:') }} {{ bmi }}</p>
                 <p>{{ recommendation }}</p>
-
             {% endif %}
         </div>
     </div>

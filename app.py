@@ -55,33 +55,37 @@ def landing():
         flash('Login failed. Check your username and/or password.', 'danger')
     return render_template('landing.html')
 
+from sqlalchemy.exc import IntegrityError
+
 @app.route('/register', methods=['POST'])
 def register():
     username = request.form.get('username')
     password = request.form.get('password')
-    confirm_password = request.form.get('confirm_password')
 
-    # Check if password and confirm password match
-    if password != confirm_password:
-        flash('Passwords do not match.', 'danger')
-        return redirect(url_for('landing') + '?register=true')
+    # Check if the username already exists
+    user = User.query.filter_by(username=username).first()
+    if user:
+        flash('Username already exists. Please choose a different one.')
+        return redirect(url_for('register'))
 
-    hashed_password = generate_password_hash(password, method='scrypt')
-    new_user = User(username=username, password=hashed_password)
-    db.session.add(new_user)
-    db.session.commit()
-    flash('Registration successful. You can now log in.', 'success')
-    return redirect(url_for('landing'))
+    # If the username doesn't exist, create a new user
+    new_user = User(username=username, password=generate_password_hash(password, method='sha256'))
+
+    try:
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('landing'))  # Redirect to 'landing' instead of 'login'
+    except IntegrityError:
+        db.session.rollback()
+        flash('Username already exists. Please choose a different one.')
+        return redirect(url_for('register'))
+
+
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('landing'))
 
 @app.route('/')
 @login_required
@@ -105,6 +109,12 @@ def index():
         db.session.add(new_bmi_record)
         db.session.commit()
     return render_template('index.html', bmi=bmi, recommendation=recommendation, bmi_record=bmi_record)
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out.', 'success')
+    return redirect(url_for('landing'))
 
 
 
