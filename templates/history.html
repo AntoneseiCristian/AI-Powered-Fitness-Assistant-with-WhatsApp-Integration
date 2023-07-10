@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BMI History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container history-page">
+        <h1>BMI History</h1>
+        <canvas id="bmiChart"></canvas>
+        <script>
+            var ctx = document.getElementById('bmiChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: {{ dates|tojson }},
+                    datasets: [{
+                        label: 'BMI',
+                        data: {{ bmis|tojson }},
+                        backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                        borderColor: 'rgba(0, 123, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Weight</th>
+                    <th>Height</th>
+                    <th>BMI</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in bmi_records %}
+                <tr>
+                    <td>{{ record.date.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ record.weight }}</td>
+                    <td>{{ record.height }}</td>
+                    <td>{{ record.bmi }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

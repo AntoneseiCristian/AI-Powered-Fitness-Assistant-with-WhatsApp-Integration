@@ -105,10 +105,11 @@ def index():
         bmi = calculate_bmi(weight, height)
         recommendation = get_recommendation(bmi)
         # Create a new BMIRecord and save it to the current user
-        new_bmi_record = BMIRecord(bmi=bmi, user_id=current_user.id)
+        new_bmi_record = BMIRecord(bmi=bmi, weight=weight, height=height, user_id=current_user.id)  # Set weight and height
         db.session.add(new_bmi_record)
         db.session.commit()
     return render_template('index.html', bmi=bmi, recommendation=recommendation, bmi_record=bmi_record)
+
 @app.route('/logout')
 @login_required
 def logout():
@@ -116,6 +117,17 @@ def logout():
     flash('You have been logged out.', 'success')
     return redirect(url_for('landing'))
 
+@app.route('/history', methods=['GET'])
+@login_required
+def history():
+    # Query the database for all of the current user's BMI records, ordered by date
+    bmi_records = BMIRecord.query.filter_by(user_id=current_user.id).order_by(BMIRecord.date.desc()).all()
+
+    # Prepare the data for the chart
+    dates = [record.date.strftime('%Y-%m-%d') for record in bmi_records]
+    bmis = [record.bmi for record in bmi_records]
+
+    return render_template('history.html', bmi_records=bmi_records, dates=dates, bmis=bmis)
 
 
 

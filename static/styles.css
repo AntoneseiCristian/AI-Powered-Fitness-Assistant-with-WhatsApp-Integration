@@ -79,3 +79,38 @@ p {
 .btn:hover {
     background-color: #45a049;
 }
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.history-page .container {
+    width: 80%;
+    margin: auto;
+}
+
+.history-page h1 {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.history-page .table {
+    width: 100%;
+    margin-bottom: 50px;
+    border-collapse: collapse;
+}
+
+.history-page .table th, .history-page .table td {
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: center;
+}
+
+.history-page .table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.history-page .table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
