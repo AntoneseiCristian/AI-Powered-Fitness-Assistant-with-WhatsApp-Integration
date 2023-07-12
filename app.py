@@ -6,6 +6,7 @@ from database import db, UserProfile  # Import db and UserProfile from database.
 from flask_wtf import FlaskForm
 from wtforms import StringField, FloatField, IntegerField, SelectField, SubmitField
 from wtforms.validators import DataRequired
+from whatsapp_message import send_whatsapp_message
 
 app = Flask(__name__)
 app.secret_key = 'secret_key'
@@ -166,7 +167,9 @@ def profile():
     return render_template('profile.html', form=form)
 
 def calculate_bmi(weight, height):
+    send_whatsapp_message()
     return round(weight / ((height / 100) ** 2), 2)
+
 
 def get_recommendation(bmi):
     if bmi < 18.5:
