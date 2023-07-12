@@ -8,6 +8,9 @@ BMI App is a web application that allows users to calculate their Body Mass Inde
 - Calculation of Body Mass Index (BMI) based on user input (weight and height).
 - Display of recommendations based on the calculated BMI.
 - Multi-language support (English and Romanian).
+- User profile management: users can save and update their profile information (name, height, age, gender, and activity level).
+- The height field on the BMI calculation form is pre-filled with the user's height from their profile.
+- Navigation updates: added a Profile button in the navbar on the index and history pages.
 
 ## Getting Started
 
@@ -19,6 +22,7 @@ BMI App is a web application that allows users to calculate their Body Mass Inde
 - Flask-Login
 - Flask-Babel
 - Werkzeug
+- Flask-WTF
 
 ### Installation
 
@@ -28,11 +32,10 @@ BMI App is a web application that allows users to calculate their Body Mass Inde
 cd BMI-APP-using-FLASK
 
 3. Install the required Python packages:
-pip install Flask Flask-SQLAlchemy Flask-Login Flask-Babel Werkzeug
+pip install Flask Flask-SQLAlchemy Flask-Login Flask-Babel Werkzeug Flask-WTF
 
 4. Run the application:
 python app.py
-
 
 5. Open your web browser and go to `http://127.0.0.1:5000/` to access the application.
 
@@ -42,5 +45,4 @@ python app.py
 2. Enter your weight (in kg) and height (in cm) in the provided fields.
 3. Click the "Calculate BMI" button.
 4. The application will display your BMI and a recommendation based on the result.
-
-
+5. Navigate to the Profile page to save or update your profile information.
