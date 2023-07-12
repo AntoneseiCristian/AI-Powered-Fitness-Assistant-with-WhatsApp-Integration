@@ -6,32 +6,51 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <div class="navbar">
+        <div class="language-selection">
+            <a href="{{ url_for('setlang', lang='en') }}">English</a> |
+            <a href="{{ url_for('setlang', lang='ro') }}">Română</a>
+        </div>
+        <div class="logout-button">
+            <a href="{{ url_for('index') }}" class="btn">Index</a>
+            <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+
+        </div>
+    </div>
     <div class="container history-page">
         <h1>BMI History</h1>
         <canvas id="bmiChart"></canvas>
-        <script>
-            var ctx = document.getElementById('bmiChart').getContext('2d');
-            var chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: {{ dates|tojson }},
-                    datasets: [{
-                        label: 'BMI',
-                        data: {{ bmis|tojson }},
-                        backgroundColor: 'rgba(0, 123, 255, 0.5)',
-                        borderColor: 'rgba(0, 123, 255, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
+<script>
+    var ctx = document.getElementById('bmiChart').getContext('2d');
+
+    var dates = {{ dates|tojson }};
+    var bmis = {{ bmis|tojson }};
+
+    // Reverse the arrays
+    dates.reverse();
+    bmis.reverse();
+
+    var chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [{
+                label: 'BMI',
+                data: bmis,
+                backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                borderColor: 'rgba(0, 123, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
-            });
-        </script>
+            }
+        }
+    });
+</script>
         <table class="table">
             <thead>
                 <tr>

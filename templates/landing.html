@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <title>BMI App</title>
+    <title>{{ _('BMI App') }}</title>
 </head>
 <body>
     <div class="navbar">
@@ -14,11 +14,11 @@
             <a href="{{ url_for('setlang', lang='ro') }}">Română</a>
         </div>
         <div class="logout-button">
-            <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+            <a href="{{ url_for('logout') }}" class="btn">{{ _('Logout') }}</a>
         </div>
     </div>
     <div class="container">
-        <h1>Welcome to the BMI App</h1>
+        <h1>{{ _('Welcome to the BMI App') }}</h1>
 
         <!-- Display Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -34,22 +34,22 @@
         <!-- Login Form -->
         <div id="login-form" class="form">
             <form action="{{ url_for('landing') }}" method="post">
-                <input type="text" name="username" placeholder="Username" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <input type="submit" value="Log In" class="btn">
+                <input type="text" name="username" placeholder="{{ _('Username') }}" required>
+                <input type="password" name="password" placeholder="{{ _('Password') }}" required>
+                <input type="submit" value="{{ _('Log In') }}" class="btn">
             </form>
-            <p>Don't have an account? <a href="javascript:void(0);" onclick="toggleForms()">Register</a></p>
+            <p>{{ _("Don't have an account?") }} <a href="javascript:void(0);" onclick="toggleForms()">{{ _('Register') }}</a></p>
         </div>
 
         <!-- Registration Form -->
         <div id="register-form" class="form" style="display:none;">
             <form action="{{ url_for('register') }}" method="post">
-                <input type="text" name="username" placeholder="Username" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-                <input type="submit" value="Register" class="btn">
+                <input type="text" name="username" placeholder="{{ _('Username') }}" required>
+                <input type="password" name="password" placeholder="{{ _('Password') }}" required>
+                <input type="password" name="confirm_password" placeholder="{{ _('Confirm Password') }}" required>
+                <input type="submit" value="{{ _('Register') }}" class="btn">
             </form>
-            <p>Already have an account? <a href="javascript:void(0);" onclick="toggleForms()">Log In</a></p>
+            <p>{{ _('Already have an account?') }} <a href="javascript:void(0);" onclick="toggleForms()">{{ _('Log In') }}</a></p>
         </div>
     </div>
 

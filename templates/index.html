@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>BMI Calculator</title>
+    <title>{{ _('BMI Calculator') }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
@@ -12,7 +12,9 @@
             <a href="{{ url_for('setlang', lang='ro') }}">Română</a>
         </div>
         <div class="logout-button">
+            <a href="{{ url_for('history') }}" class="btn">History</a>
             <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+
         </div>
     </div>
     <div class="container">
@@ -24,7 +26,7 @@
         <div class="result">
             {% if bmi %}
                 {% if bmi_record %}
-                    <p>Your latest BMI was calculated on {{ bmi_record.date.strftime('%Y-%m-%d') }}.</p>
+                    <p>{{ _('Your latest BMI was calculated on') }} {{ bmi_record.date.strftime('%Y-%m-%d') }}.</p>
                 {% endif %}
                 <p>{{ _('Your BMI is:') }} {{ bmi }}</p>
                 <p>{{ recommendation }}</p>

@@ -26,3 +26,39 @@ msgstr "Ești supraponderal. Ia în considerare o dietă echilibrată și activi
 
 msgid "You are in the obesity range. It's highly recommended to consult a healthcare professional for guidance and support."
 msgstr "Ești în categoria obezității. Este foarte recomandat să consulți un medic pentru îndrumare și sprijin."
+
+msgid "Don't have an account? Register"
+msgstr "Nu ai un cont? Înregistrează-te"
+
+msgid "Please log in to access this page."
+msgstr "Te rog să te autentifici pentru a accesa această pagină."
+
+msgid "Welcome to the BMI App"
+msgstr "Bine ai venit la Aplicația BMI"
+
+msgid "Username"
+msgstr "Nume de utilizator"
+
+msgid "Password"
+msgstr "Parolă"
+
+msgid "Log In"
+msgstr "Autentificare"
+
+msgid "Register"
+msgstr "Înregistrare"
+
+msgid "Confirm Password"
+msgstr "Confirmă Parola"
+
+msgid "Already have an account? Log In"
+msgstr "Ai deja un cont? Autentificare"
+
+msgid "Logout"
+msgstr "Deconectare"
+
+msgid "Your latest BMI was calculated on"
+msgstr "Ultimul tău IMC a fost calculat pe"
+
+msgid "Don't have an account?"
+msgstr "Nu ai cont?"
