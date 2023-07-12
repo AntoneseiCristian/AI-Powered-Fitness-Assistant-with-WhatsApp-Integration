@@ -2,7 +2,10 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_babel import Babel, _
-from database import db  # Import db from database.py
+from database import db, UserProfile  # Import db and UserProfile from database.py
+from flask_wtf import FlaskForm
+from wtforms import StringField, FloatField, IntegerField, SelectField, SubmitField
+from wtforms.validators import DataRequired
 
 app = Flask(__name__)
 app.secret_key = 'secret_key'
@@ -34,6 +37,14 @@ class User(UserMixin, db.Model):
 from BMIRecord import BMIRecord
 
 User.bmi_records = db.relationship('BMIRecord', backref='user', lazy=True)
+
+class ProfileForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    height = FloatField('Height', validators=[DataRequired()])
+    age = IntegerField('Age', validators=[DataRequired()])
+    gender = SelectField('Gender', choices=[('male', 'Male'), ('female', 'Female')])
+    activity_level = SelectField('Activity Level', choices=[('low', 'Low'), ('medium', 'Medium'), ('high', 'High')])
+    submit = SubmitField('Save')
 
 with app.app_context():
     db.create_all()
@@ -80,12 +91,9 @@ def register():
         flash('Username already exists. Please choose a different one.')
         return redirect(url_for('register'))
 
-
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
 
 @app.route('/')
 @login_required
@@ -95,6 +103,10 @@ def home():
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
+    # Get the user's profile
+    profile = UserProfile.query.filter_by(user_id=current_user.id).first()
+    height = profile.height if profile else None
+
     # Get the latest BMI record of the current user
     bmi_record = BMIRecord.query.filter_by(user_id=current_user.id).order_by(BMIRecord.date.desc()).first()
     bmi = bmi_record.bmi if bmi_record else None
@@ -108,7 +120,7 @@ def index():
         new_bmi_record = BMIRecord(bmi=bmi, weight=weight, height=height, user_id=current_user.id)  # Set weight and height
         db.session.add(new_bmi_record)
         db.session.commit()
-    return render_template('index.html', bmi=bmi, recommendation=recommendation, bmi_record=bmi_record)
+    return render_template('index.html', bmi=bmi, recommendation=recommendation, bmi_record=bmi_record, height=height)
 
 @app.route('/logout')
 @login_required
@@ -129,7 +141,29 @@ def history():
 
     return render_template('history.html', bmi_records=bmi_records, dates=dates, bmis=bmis)
 
+@app.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    # Get the user's profile
+    profile = UserProfile.query.filter_by(user_id=current_user.id).first()
 
+    # If a profile exists, pre-populate the form with the saved data
+    if profile:
+        form = ProfileForm(obj=profile)
+    else:
+        form = ProfileForm()
+
+    if form.validate_on_submit():
+        if not profile:
+            # If a profile doesn't exist, create a new one
+            profile = UserProfile(user_id=current_user.id)
+        # Update the profile with the form data
+        form.populate_obj(profile)
+        db.session.add(profile)
+        db.session.commit()
+        flash('Profile saved successfully.')
+        return redirect(url_for('index'))
+    return render_template('profile.html', form=form)
 
 def calculate_bmi(weight, height):
     return round(weight / ((height / 100) ** 2), 2)

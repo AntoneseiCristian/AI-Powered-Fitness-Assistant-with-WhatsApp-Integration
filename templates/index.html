@@ -12,6 +12,7 @@
             <a href="{{ url_for('setlang', lang='ro') }}">Română</a>
         </div>
         <div class="logout-button">
+            <a href="{{ url_for('profile') }}" class="btn">Profile</a>
             <a href="{{ url_for('history') }}" class="btn">History</a>
             <a href="{{ url_for('logout') }}" class="btn">Logout</a>
 
@@ -20,7 +21,7 @@
     <div class="container">
         <form action="/index" method="post">
             <input type="number" name="weight" placeholder="{{ _('Weight in kg') }}" required>
-            <input type="number" name="height" placeholder="{{ _('Height in cm') }}" required>
+            <input type="number" name="height" placeholder="{{ _('Height in cm') }}" value="{{ height }}" required>
             <input type="submit" value="{{ _('Calculate BMI') }}">
         </form>
         <div class="result">

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <div class="language-selection">
+            <a href="{{ url_for('setlang', lang='en') }}">English</a> |
+            <a href="{{ url_for('setlang', lang='ro') }}">Română</a>
+        </div>
+        <div class="logout-button">
+            <a href="{{ url_for('history') }}" class="btn">History</a>
+            <a href="{{ url_for('index') }}" class="btn">Index</a>
+            <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        <form action="/profile" method="post">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.name.label }}<br>
+                {{ form.name() }}
+            </div>
+            <div class="form-group">
+                {{ form.height.label }}<br>
+                {{ form.height() }}
+            </div>
+            <div class="form-group">
+                {{ form.age.label }}<br>
+                {{ form.age() }}
+            </div>
+            <div class="form-group">
+                {{ form.gender.label }}<br>
+                {{ form.gender() }}
+            </div>
+            <div class="form-group">
+                {{ form.activity_level.label }}<br>
+                {{ form.activity_level() }}
+            </div>
+            <div class="form-group">
+                {{ form.submit() }}
+            </div>
+        </form>
+    </div>
+</body>
+</html>
