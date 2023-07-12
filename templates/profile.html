@@ -4,6 +4,52 @@
     <meta charset="UTF-8">
     <title>Profile</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .profile-form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 15px;
+            background-color: #f7f7f7;
+            border-radius: 5px;
+        }
+        .profile-form .form-group {
+            margin-bottom: 15px;
+        }
+        .profile-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .profile-form input {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            text-align: center;
+        }
+        .profile-form select {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            text-align: center;
+            text-align-last: center;
+            font-weight: bold;
+            font-size: 16px;  /* Increase the font size */
+        }
+        .profile-form button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .profile-form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <div class="navbar">
@@ -13,12 +59,12 @@
         </div>
         <div class="logout-button">
             <a href="{{ url_for('history') }}" class="btn">History</a>
-            <a href="{{ url_for('index') }}" class="btn">Index</a>
+            <a href="{{ url_for('profile') }}" class="btn">Profile</a>
             <a href="{{ url_for('logout') }}" class="btn">Logout</a>
         </div>
     </div>
     <div class="container">
-        <form action="/profile" method="post">
+        <form class="profile-form" action="/profile" method="post">
             {{ form.hidden_tag() }}
             <div class="form-group">
                 {{ form.name.label }}<br>

@@ -52,7 +52,7 @@ with app.app_context():
 @app.route('/setlang/<lang>')
 def setlang(lang):
     session['lang'] = lang
-    return redirect(url_for('index'))
+    return redirect(request.referrer or url_for('index'))
 
 @app.route('/landing', methods=['GET', 'POST'])
 def landing():
