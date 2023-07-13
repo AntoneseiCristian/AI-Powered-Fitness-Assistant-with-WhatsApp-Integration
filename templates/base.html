@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <div class="navbar">
+        <div class="language-selection">
+            <a href="{{ url_for('setlang', lang='en') }}">English</a> |
+            <a href="{{ url_for('setlang', lang='ro') }}">Română</a>
+        </div>
+        <div class="logout-button">
+            {% if request.path != url_for('history') %}
+            <a href="{{ url_for('history') }}" class="btn">History</a>
+            {% endif %}
+            <a href="{{ url_for('profile') }}" class="btn">Profile</a>
+            <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+        </div>
+    </div>
+    {% block content %}{% endblock %}
+</body>
+</html>

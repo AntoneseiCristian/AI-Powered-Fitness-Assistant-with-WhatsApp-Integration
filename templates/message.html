@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+Send a Custom Message
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Send a Custom Message</h1>
+    <form method="POST" class="form-inline">
+        <div class="form-group mb-2">
+            <label for="message" class="sr-only">Message:</label>
+            <input type="text" class="form-control" id="message" name="message" placeholder="Enter your message here" required>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Send</button>
+    </form>
+</div>
+{% endblock %}

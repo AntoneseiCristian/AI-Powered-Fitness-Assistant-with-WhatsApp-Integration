@@ -140,6 +140,9 @@ def history():
     dates = [record.date.strftime('%Y-%m-%d') for record in bmi_records]
     bmis = [record.bmi for record in bmi_records]
 
+    print(dates)  # Add this line to print the dates data
+    print(bmis)  # Add this line to print the bmis data
+
     return render_template('history.html', bmi_records=bmi_records, dates=dates, bmis=bmis)
 
 @app.route('/profile', methods=['GET', 'POST'])
@@ -166,8 +169,18 @@ def profile():
         return redirect(url_for('index'))
     return render_template('profile.html', form=form)
 
+@app.route('/message', methods=['GET', 'POST'])
+@login_required
+def message():
+    if request.method == 'POST':
+        custom_message = request.form.get('message')
+        send_whatsapp_message(custom_message)
+        flash('Message sent successfully.')
+        return redirect(url_for('message'))
+    return render_template('message.html')
+
+
 def calculate_bmi(weight, height):
-    send_whatsapp_message()
     return round(weight / ((height / 100) ** 2), 2)
 
 

@@ -1,26 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>BMI History</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-    <div class="navbar">
-        <div class="language-selection">
-            <a href="{{ url_for('setlang', lang='en') }}">English</a> |
-            <a href="{{ url_for('setlang', lang='ro') }}">Română</a>
-        </div>
-        <div class="logout-button">
-            <a href="{{ url_for('profile') }}" class="btn">Profile</a>
-            <a href="{{ url_for('index') }}" class="btn">Index</a>
-            <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+{% extends "base.html" %}
 
-        </div>
-    </div>
-    <div class="container history-page">
-        <h1>BMI History</h1>
-        <canvas id="bmiChart"></canvas>
+{% block title %}
+BMI History
+{% endblock %}
+
+{% block content %}
+<div class="container history-page">
+    <h1>BMI History</h1>
+    <canvas id="bmiChart"></canvas>
 <script>
     var ctx = document.getElementById('bmiChart').getContext('2d');
 
@@ -52,26 +39,26 @@
         }
     });
 </script>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Weight</th>
-                    <th>Height</th>
-                    <th>BMI</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for record in bmi_records %}
-                <tr>
-                    <td>{{ record.date.strftime('%Y-%m-%d') }}</td>
-                    <td>{{ record.weight }}</td>
-                    <td>{{ record.height }}</td>
-                    <td>{{ record.bmi }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</body>
-</html>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Weight</th>
+                <th>Height</th>
+                <th>BMI</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in bmi_records %}
+            <tr>
+                <td>{{ record.date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ record.weight }}</td>
+                <td>{{ record.height }}</td>
+                <td>{{ record.bmi }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
