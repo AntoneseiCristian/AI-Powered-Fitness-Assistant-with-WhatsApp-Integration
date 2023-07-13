@@ -7,7 +7,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, FloatField, IntegerField, SelectField, SubmitField
 from wtforms.validators import DataRequired
 from whatsapp_message import send_whatsapp_message
-
+from datetime import datetime
 app = Flask(__name__)
 app.secret_key = 'secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bmi_app.db'
@@ -115,10 +115,12 @@ def index():
     if request.method == 'POST' and 'weight' in request.form and 'height' in request.form:
         weight = float(request.form.get('weight'))
         height = float(request.form.get('height'))
+        previous_date = request.form.get('previous_date')
+        previous_date = datetime.strptime(previous_date, '%Y-%m-%d') if previous_date else datetime.utcnow()
         bmi = calculate_bmi(weight, height)
         recommendation = get_recommendation(bmi)
         # Create a new BMIRecord and save it to the current user
-        new_bmi_record = BMIRecord(bmi=bmi, weight=weight, height=height, user_id=current_user.id)  # Set weight and height
+        new_bmi_record = BMIRecord(bmi=bmi, weight=weight, height=height, user_id=current_user.id, date=previous_date)  # Set weight, height, and date
         db.session.add(new_bmi_record)
         db.session.commit()
     return render_template('index.html', bmi=bmi, recommendation=recommendation, bmi_record=bmi_record, height=height)
@@ -192,6 +194,18 @@ def message():
         return redirect(url_for('message'))
     return render_template('message.html')
 
+@app.route('/delete_all_records', methods=['POST'])
+@login_required
+def delete_all_records():
+    password = request.form.get('password')
+    user = User.query.filter_by(username=current_user.username).first()
+    if user and check_password_hash(user.password, password):
+        BMIRecord.query.filter_by(user_id=current_user.id).delete()
+        db.session.commit()
+        flash('All records deleted successfully.')
+    else:
+        flash('Incorrect password. Please try again.')
+    return redirect(url_for('history'))
 
 def calculate_bmi(weight, height):
     return round(weight / ((height / 100) ** 2), 2)

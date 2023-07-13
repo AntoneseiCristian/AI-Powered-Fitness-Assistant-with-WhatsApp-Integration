@@ -67,5 +67,25 @@ BMI History
             {% endfor %}
         </tbody>
     </table>
+    <form id="deleteAllForm" action="{{ url_for('delete_all_records') }}" method="POST" onsubmit="return deleteAllRecords();">
+    <button type="submit" class="btn btn-danger">Delete All</button>
+</form>
+
+<script>
+function deleteAllRecords() {
+    var password = prompt("Please enter your password:");
+    if (password == null || password == "") {
+        alert("You must enter your password to delete all records.");
+        return false;
+    } else {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'password';
+        input.value = password;
+        document.getElementById('deleteAllForm').appendChild(input);
+        return confirm('Are you sure you want to delete all records? This action cannot be undone.');
+    }
+}
+</script>
 </div>
 {% endblock %}
