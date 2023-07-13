@@ -114,3 +114,20 @@ body {
 .history-page .table tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+
+
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+        .no-style {
+            background: none;
+            padding: 0;
+            box-shadow: none;
+        }

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, abort
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_babel import Babel, _
@@ -81,7 +81,7 @@ def register():
         return redirect(url_for('register'))
 
     # If the username doesn't exist, create a new user
-    new_user = User(username=username, password=generate_password_hash(password, method='sha256'))
+    new_user = User(username=username, password=generate_password_hash(password, method='scrypt'))
 
     try:
         db.session.add(new_user)
@@ -144,6 +144,19 @@ def history():
     print(bmis)  # Add this line to print the bmis data
 
     return render_template('history.html', bmi_records=bmi_records, dates=dates, bmis=bmis)
+
+
+@app.route('/delete_record/<int:record_id>', methods=['POST'])
+@login_required
+def delete_record(record_id):
+    record = BMIRecord.query.get(record_id)
+    if record.user_id != current_user.id:
+        abort(403)  # Forbidden
+    db.session.delete(record)
+    db.session.commit()
+    flash('Record deleted successfully.')
+    return redirect(url_for('history'))
+
 
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required

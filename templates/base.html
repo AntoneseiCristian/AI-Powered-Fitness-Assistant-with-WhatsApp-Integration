@@ -15,9 +15,8 @@
             <a href="{{ url_for('setlang', lang='ro') }}">Română</a>
         </div>
         <div class="logout-button">
-            {% if request.path != url_for('history') %}
+            <a href="{{ url_for('message') }}" class="btn">Message</a>
             <a href="{{ url_for('history') }}" class="btn">History</a>
-            {% endif %}
             <a href="{{ url_for('profile') }}" class="btn">Profile</a>
             <a href="{{ url_for('logout') }}" class="btn">Logout</a>
         </div>

@@ -3,8 +3,8 @@
 from twilio.rest import Client
 
 def send_whatsapp_message(message):
-    account_sid = 'your_account_sid'
-    auth_token = 'your_auth_token'
+    account_sid = 'ACa96dca1ec5a81f61bd6e93a7e8d74bfd'
+    auth_token = 'dfbf79571389a9ca5be8ec34e3c7b0e4'
     client = Client(account_sid, auth_token)
 
     message = client.messages.create(

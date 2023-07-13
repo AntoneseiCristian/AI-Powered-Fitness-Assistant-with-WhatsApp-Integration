@@ -1,38 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ _('BMI Calculator') }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <div class="navbar">
-        <div class="language-selection">
-            <a href="{{ url_for('setlang', lang='en') }}">English</a> |
-            <a href="{{ url_for('setlang', lang='ro') }}">Română</a>
-        </div>
-        <div class="logout-button">
-            <a href="{{ url_for('profile') }}" class="btn">Profile</a>
-            <a href="{{ url_for('history') }}" class="btn">History</a>
-            <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+{% extends "base.html" %}
 
-        </div>
-    </div>
-    <div class="container">
-        <form action="/index" method="post">
-            <input type="number" name="weight" placeholder="{{ _('Weight in kg') }}" required>
-            <input type="number" name="height" placeholder="{{ _('Height in cm') }}" value="{{ height }}" required>
-            <input type="submit" value="{{ _('Calculate BMI') }}">
-        </form>
-        <div class="result">
-            {% if bmi %}
-                {% if bmi_record %}
-                    <p>{{ _('Your latest BMI was calculated on') }} {{ bmi_record.date.strftime('%Y-%m-%d') }}.</p>
-                {% endif %}
-                <p>{{ _('Your BMI is:') }} {{ bmi }}</p>
-                <p>{{ recommendation }}</p>
+{% block title %}
+{{ _('BMI Calculator') }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form action="/index" method="post">
+        <input type="number" name="weight" placeholder="{{ _('Weight in kg') }}" required>
+        <input type="number" name="height" placeholder="{{ _('Height in cm') }}" value="{{ height }}" required>
+        <input type="submit" value="{{ _('Calculate BMI') }}">
+    </form>
+    <div class="result">
+        {% if bmi %}
+            {% if bmi_record %}
+                <p>{{ _('Your latest BMI was calculated on') }} {{ bmi_record.date.strftime('%Y-%m-%d') }}.</p>
             {% endif %}
-        </div>
+            <p>{{ _('Your BMI is:') }} {{ bmi }}</p>
+            <p>{{ recommendation }}</p>
+        {% endif %}
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

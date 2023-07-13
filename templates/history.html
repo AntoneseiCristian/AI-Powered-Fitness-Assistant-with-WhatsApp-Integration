@@ -47,6 +47,8 @@ BMI History
                 <th>Weight</th>
                 <th>Height</th>
                 <th>BMI</th>
+                <th>Action</th>
+
             </tr>
         </thead>
         <tbody>
@@ -56,6 +58,11 @@ BMI History
                 <td>{{ record.weight }}</td>
                 <td>{{ record.height }}</td>
                 <td>{{ record.bmi }}</td>
+                 <td>
+                    <form action="{{ url_for('delete_record', record_id=record.id) }}" method="POST" class="no-style" >
+                        <button type="submit" class="btn btn-danger">Delete</button> <!-- Add 'btn-sm' class for a smaller button -->
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
