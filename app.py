@@ -69,28 +69,32 @@ def landing():
 
 from sqlalchemy.exc import IntegrityError
 
-@app.route('/register', methods=['POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    username = request.form.get('username')
-    password = request.form.get('password')
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
 
-    # Check if the username already exists
-    user = User.query.filter_by(username=username).first()
-    if user:
-        flash('Username already exists. Please choose a different one.')
-        return redirect(url_for('register'))
+        # Check if the username already exists
+        user = User.query.filter_by(username=username).first()
+        if user:
+            flash('Username already exists. Please choose a different one.')
+            return redirect(url_for('landing', register='true'))  # Include a query parameter in the URL
 
-    # If the username doesn't exist, create a new user
-    new_user = User(username=username, password=generate_password_hash(password, method='scrypt'))
+        # If the username doesn't exist, create a new user
+        new_user = User(username=username, password=generate_password_hash(password, method='scrypt'))
 
-    try:
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect(url_for('landing'))  # Redirect to 'landing' instead of 'login'
-    except IntegrityError:
-        db.session.rollback()
-        flash('Username already exists. Please choose a different one.')
-        return redirect(url_for('register'))
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+            return redirect(url_for('landing'))  # Redirect to the landing page after successful registration
+        except IntegrityError:
+            db.session.rollback()
+            flash('Username already exists. Please choose a different one.')
+            return redirect(url_for('landing', register='true'))  # Include a query parameter in the URL
+
+    return render_template('landing.html')  # Render the landing page for a GET request
+
 
 @login_manager.user_loader
 def load_user(user_id):
