@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, abort
+from flask import Flask, render_template, request, redirect, url_for, flash, session, abort, jsonify
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_babel import Babel, _
@@ -8,6 +8,7 @@ from wtforms import StringField, FloatField, IntegerField, SelectField, SubmitFi
 from wtforms.validators import DataRequired
 from whatsapp_message import send_whatsapp_message
 from datetime import datetime
+from language_model import get_response
 app = Flask(__name__)
 app.secret_key = 'secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bmi_app.db'
@@ -229,6 +230,21 @@ def delete_all_records():
     else:
         flash('Incorrect password. Please try again.')
     return redirect(url_for('history'))
+@app.route('/prompt', methods=['POST'])
+@login_required
+def prompt():
+    if request.method == 'POST':
+        prompt_message = request.json.get('newField1')
+        print(f'Prompt: {prompt_message}')  # print the prompt message
+        if prompt_message:
+            response_message = get_response(prompt_message)
+            print(f'Response: {response_message}')  # print the response message
+            return jsonify({"responseField": response_message})
+        else:
+            return jsonify({"error": "No prompt message provided"}), 400
+    else:
+        return jsonify({"error": "Invalid request method"}), 405
+
 
 def calculate_bmi(weight, height):
     return round(weight / ((height / 100) ** 2), 2)

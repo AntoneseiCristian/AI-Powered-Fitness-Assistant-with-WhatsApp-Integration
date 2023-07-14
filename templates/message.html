@@ -1,8 +1,4 @@
-{% extends "base.html" %}
-
-{% block title %}
-Send a Custom Message
-{% endblock %}
+{% extends "index.html" %}
 
 {% block content %}
 <div class="container">
@@ -12,7 +8,42 @@ Send a Custom Message
             <label for="message" class="sr-only">Message:</label>
             <input type="text" class="form-control" id="message" name="message" placeholder="Enter your message here" required>
         </div>
+        <!-- First new text field -->
+        <div class="form-group mb-2">
+            <label for="newField1" class="sr-only">New Field 1:</label>
+            <input type="text" class="form-control" id="newField1" name="newField1" placeholder="Enter data for new field 1" required>
+        </div>
+        <!-- Second new field (response), which is optional and multiline -->
+        <div class="form-group mb-2">
+            <label for="responseField" class="sr-only">Response:</label>
+            <textarea class="form-control" id="responseField" name="responseField" placeholder="Enter your response here" rows="3"></textarea>
+        </div>
         <button type="submit" class="btn btn-primary mb-2">Send</button>
+        <button id="prompt-button" class="btn btn-secondary mb-2">Prompt and Receive</button>
     </form>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$("#prompt-button").click(function(event) {
+    event.preventDefault();  // prevent the form from being submitted
+
+    $.ajax({
+        url: "/prompt",  // the URL for the request
+        type: "POST",  // the type of data we are sending
+        data: JSON.stringify({
+            newField1: $("#newField1").val(),  // the data to send
+        }),
+        contentType: "application/json",  // the type of data we're expecting back
+        dataType: "json",
+        success: function(data) {  // function to call on success
+            $("#responseField").val(data.responseField);  // set the value of the responseField
+        },
+        error: function(xhr, status, error) {  // function to call on an error
+            console.log("Error: " + error);
+        },
+    });
+});
+</script>
+
 {% endblock %}
