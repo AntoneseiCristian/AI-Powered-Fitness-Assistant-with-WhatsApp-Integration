@@ -131,6 +131,17 @@ def logout():
     logout_user()
     flash('You have been logged out.', 'success')
     return redirect(url_for('landing'))
+def calculate_recommended_bmi_and_weight(height):
+    # Convert height from cm to m
+    height_m = height / 100
+
+    # Calculate the weight that corresponds to a BMI of 22
+    recommended_weight = 22 * (height_m ** 2)
+
+    # Calculate the BMI that corresponds to the recommended weight
+    recommended_bmi = calculate_bmi(recommended_weight, height)
+
+    return recommended_bmi, recommended_weight
 
 @app.route('/history', methods=['GET'])
 @login_required
@@ -142,10 +153,18 @@ def history():
     dates = [record.date.strftime('%Y-%m-%d') for record in bmi_records]
     bmis = [record.bmi for record in bmi_records]
 
+    # Get the user's profile
+    profile = UserProfile.query.filter_by(user_id=current_user.id).first()
+    height = profile.height if profile else None
+
+    # Calculate the recommended BMI and weight based on the user's height
+    recommended_bmi, recommended_weight = calculate_recommended_bmi_and_weight(height) if height else (None, None)
+
     print(dates)  # Add this line to print the dates data
     print(bmis)  # Add this line to print the bmis data
 
-    return render_template('history.html', bmi_records=bmi_records, dates=dates, bmis=bmis)
+    return render_template('history.html', bmi_records=bmi_records, dates=dates, bmis=bmis, recommended_bmi=recommended_bmi, recommended_weight=recommended_weight, height=height)
+
 
 
 @app.route('/delete_record/<int:record_id>', methods=['POST'])

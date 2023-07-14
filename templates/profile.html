@@ -60,7 +60,7 @@ Profile
         </div>
         <div class="form-group">
             {{ form.height.label }}<br>
-            {{ form.height() }}
+            {{ form.height(id='height') }}
         </div>
         <div class="form-group">
             {{ form.age.label }}<br>
@@ -79,4 +79,17 @@ Profile
         </div>
     </form>
 </div>
+
+<script>
+document.getElementById('height').addEventListener('change', function() {
+    var height = this.value;
+    fetch('/get_recommended_bmi?height=' + height)
+        .then(response => response.json())
+        .then(data => {
+            // Store the recommended BMI in localStorage
+            localStorage.setItem('recommended_bmi', data.recommended_bmi);
+        });
+});
+</script>
+
 {% endblock %}

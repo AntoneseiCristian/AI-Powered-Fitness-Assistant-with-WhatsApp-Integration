@@ -11,8 +11,8 @@ BMI History
 <script>
     var ctx = document.getElementById('bmiChart').getContext('2d');
 
-    var dates = {{ dates|tojson }};
-    var bmis = {{ bmis|tojson }};
+    var dates = ['Recommended'].concat({{ dates|tojson }});
+    var bmis = [{{ recommended_bmi }}].concat({{ bmis|tojson }});
 
     // Reverse the arrays
     dates.reverse();
@@ -48,10 +48,16 @@ BMI History
                 <th>Height</th>
                 <th>BMI</th>
                 <th>Action</th>
-
             </tr>
         </thead>
         <tbody>
+            <tr>
+                <td>Recommended</td>
+                <td>{{ recommended_weight }}</td>
+                <td>{{ height }}</td>
+                <td>{{ recommended_bmi }}</td>
+                <td>-</td>
+            </tr>
             {% for record in bmi_records %}
             <tr>
                 <td>{{ record.date.strftime('%Y-%m-%d') }}</td>
