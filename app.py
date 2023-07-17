@@ -6,9 +6,10 @@ from database import db, UserProfile  # Import db and UserProfile from database.
 from flask_wtf import FlaskForm
 from wtforms import StringField, FloatField, IntegerField, SelectField, SubmitField
 from wtforms.validators import DataRequired
-from whatsapp_message import send_whatsapp_message
 from datetime import datetime
 from language_model import get_response
+from whatsapp_message import send_whatsapp_message
+from twilio.twiml.messaging_response import MessagingResponse
 app = Flask(__name__)
 app.secret_key = 'secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bmi_app.db'
@@ -83,7 +84,7 @@ def register():
             return redirect(url_for('landing', register='true'))  # Include a query parameter in the URL
 
         # If the username doesn't exist, create a new user
-        new_user = User(username=username, password=generate_password_hash(password, method='scrypt'))
+        new_user = User(username=username, password=generate_password_hash(password, method='sha256'))
 
         try:
             db.session.add(new_user)
@@ -234,17 +235,34 @@ def delete_all_records():
 @login_required
 def prompt():
     if request.method == 'POST':
-        prompt_message = request.json.get('newField1')
+        prompt_message = request.json.get('message')
         print(f'Prompt: {prompt_message}')  # print the prompt message
         if prompt_message:
             response_message = get_response(prompt_message)
-            print(f'Response: {response_message}')  # print the response message
+            print(f'Response: {response_message}')
+            send_whatsapp_message(response_message)# print the response message
             return jsonify({"responseField": response_message})
         else:
+            send_whatsapp_message("No prompt message provided")
             return jsonify({"error": "No prompt message provided"}), 400
     else:
+        send_whatsapp_message("Invalid request method")
         return jsonify({"error": "Invalid request method"}), 405
 
+@app.route("/receive-wapp-messages", methods=['POST'])
+def receive_wapp_messages():
+    # Get the message sent from WhatsApp
+    incoming_msg = request.values.get('Body', '').lower()
+
+    # Here you can process the message as needed, for example, save it to a database
+    # or update your application state
+
+    # Send a response back to WhatsApp
+    resp = MessagingResponse()
+    msg = resp.message()
+    msg.body("Received your message!")
+
+    return str(resp)
 
 def calculate_bmi(weight, height):
     return round(weight / ((height / 100) ** 2), 2)
@@ -261,4 +279,4 @@ def get_recommendation(bmi):
         return _("You are in the obesity range. It's highly recommended to consult a healthcare professional for guidance and support.")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False) #delete use_reloader in production
