@@ -8,11 +8,7 @@
             <label for="message" class="sr-only">Message:</label>
             <input type="text" class="form-control" id="message" name="message" placeholder="Enter your message here" required>
         </div>
-        <!-- First new text field -->
-        <div class="form-group mb-2">
-            <label for="newField1" class="sr-only">New Field 1:</label>
-            <input type="text" class="form-control" id="newField1" name="newField1" placeholder="Enter data for new field 1" required>
-        </div>
+
         <!-- Second new field (response), which is optional and multiline -->
         <div class="form-group mb-2">
             <label for="responseField" class="sr-only">Response:</label>
@@ -28,11 +24,14 @@
 $("#prompt-button").click(function(event) {
     event.preventDefault();  // prevent the form from being submitted
 
+    // Disable the button
+    $(this).prop('disabled', true);
+
     $.ajax({
         url: "/prompt",  // the URL for the request
         type: "POST",  // the type of data we are sending
         data: JSON.stringify({
-            newField1: $("#newField1").val(),  // the data to send
+            message: $("#message").val(),  // the data to send
         }),
         contentType: "application/json",  // the type of data we're expecting back
         dataType: "json",
@@ -42,8 +41,13 @@ $("#prompt-button").click(function(event) {
         error: function(xhr, status, error) {  // function to call on an error
             console.log("Error: " + error);
         },
+        complete: function() {  // function to call when the request finishes (after success and error callbacks)
+            // Enable the button
+            $("#prompt-button").prop('disabled', false);
+        },
     });
 });
 </script>
+
 
 {% endblock %}
