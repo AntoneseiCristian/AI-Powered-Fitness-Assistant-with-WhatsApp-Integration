@@ -10,11 +10,11 @@
 <body>
     <div class="navbar">
         <div class="language-selection">
-            <a href="{{ url_for('setlang', lang='en') }}">English</a> |
-            <a href="{{ url_for('setlang', lang='ro') }}">Română</a>
+            <a href="{{ url_for('main.setlang', lang='en') }}">English</a> |
+            <a href="{{ url_for('main.setlang', lang='ro') }}">Română</a>
         </div>
         <div class="logout-button">
-            <a href="{{ url_for('logout') }}" class="btn">{{ _('Logout') }}</a>
+            <a href="{{ url_for('auth.logout') }}" class="btn">{{ _('Logout') }}</a>
         </div>
     </div>
     <div class="container">
@@ -33,7 +33,7 @@
 
         <!-- Login Form -->
         <div id="login-form" class="form">
-            <form action="{{ url_for('landing') }}" method="post">
+            <form action="{{ url_for('auth.landing') }}" method="post">
                 <input type="text" name="username" placeholder="{{ _('Username') }}" required>
                 <input type="password" name="password" placeholder="{{ _('Password') }}" required>
                 <input type="submit" value="{{ _('Log In') }}" class="btn">
@@ -43,7 +43,7 @@
 
         <!-- Registration Form -->
         <div id="register-form" class="form" style="display:none;">
-            <form action="{{ url_for('register') }}" method="post">
+            <form action="{{ url_for('auth.register') }}" method="post">
                 <input type="text" name="username" placeholder="{{ _('Username') }}" required>
                 <input type="password" name="password" placeholder="{{ _('Password') }}" required>
                 <input type="password" name="confirm_password" placeholder="{{ _('Confirm Password') }}" required>

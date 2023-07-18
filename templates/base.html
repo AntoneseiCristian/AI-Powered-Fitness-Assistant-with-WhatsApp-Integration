@@ -11,15 +11,15 @@
 <body>
     <div class="navbar">
         <div class="language-selection">
-            <a href="{{ url_for('setlang', lang='en') }}">English</a> |
-            <a href="{{ url_for('setlang', lang='ro') }}">Română</a>
+            <a href="{{ url_for('main.setlang', lang='en') }}">English</a> |
+            <a href="{{ url_for('main.setlang', lang='ro') }}">Română</a>
         </div>
         <div class="logout-button">
-            <a href="{{ url_for('index') }}" class="btn">Index</a>
-            <a href="{{ url_for('message') }}" class="btn">Message</a>
-            <a href="{{ url_for('history') }}" class="btn">History</a>
-            <a href="{{ url_for('profile') }}" class="btn">Profile</a>
-            <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+            <a href="{{ url_for('main.index') }}" class="btn">Index</a>
+            <a href="{{ url_for('main.message') }}" class="btn">Message</a>
+            <a href="{{ url_for('main.history') }}" class="btn">History</a>
+            <a href="{{ url_for('main.profile') }}" class="btn">Profile</a>
+            <a href="{{ url_for('auth.logout') }}" class="btn">Logout</a>
 
         </div>
     </div>
