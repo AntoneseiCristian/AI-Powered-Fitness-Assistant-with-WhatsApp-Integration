@@ -22,4 +22,15 @@
         {% endif %}
     </div>
 </div>
+<script>
+    document.getElementById('previous_date').addEventListener('focus', function (e) {
+        if(this.value) {
+            let today = new Date();
+            let dd = String(today.getDate()).padStart(2, '0');
+            let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            let yyyy = today.getFullYear();
+            this.value = yyyy + '-' + mm + '-' + dd;
+        }
+    });
+</script>
 {% endblock %}

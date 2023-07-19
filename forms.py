@@ -8,4 +8,5 @@ class ProfileForm(FlaskForm):
     age = IntegerField('Age', validators=[DataRequired()])
     gender = SelectField('Gender', choices=[('male', 'Male'), ('female', 'Female')])
     activity_level = SelectField('Activity Level', choices=[('low', 'Low'), ('medium', 'Medium'), ('high', 'High')])
+    phone_number = StringField('Phone Number')
     submit = SubmitField('Save')

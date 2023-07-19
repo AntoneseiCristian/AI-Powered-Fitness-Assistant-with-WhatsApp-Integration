@@ -80,7 +80,8 @@ def delete_record(record_id):
 def profile():
     # Get the user's profile
     profile = UserProfile.query.filter_by(user_id=current_user.id).first()
-
+    print(request.headers)
+    print(request.data)
     # If a profile exists, pre-populate the form with the saved data
     if profile:
         form = ProfileForm(obj=profile)
@@ -142,12 +143,37 @@ def prompt():
 
 @main.route("/receive-wapp-messages", methods=['POST'])
 def receive_wapp_messages():
+
     # Get the message sent from WhatsApp
     incoming_msg = request.values.get('Body', '').lower()
 
+    # Get the phone number the message is coming from
+    from_number = request.values.get('From', '')
+
+    # Remove the 'whatsapp:' prefix from the phone number
+    from_number = from_number.replace('whatsapp:', '')
+
+
+    # Print all request headers
+    print("Headers:")
+    print(request.headers)
+
+    # Print all form data
+    print("Form Data:")
+    print(request.form)
+
+    # Print all query parameters
+    print("Query Parameters:")
+    print(request.args)
     # Here you can process the message as needed, for example, save it to a database
     # or update your application state
+    # Query the database for a user with this phone number
+    user = UserProfile.query.filter_by(phone_number=from_number).first()
 
+    # If no user is found, return a 403 Forbidden response
+    if user is None:
+        send_whatsapp_message("User has not completed his profile")
+        abort(403)
     # Send a response back to WhatsApp
     resp = MessagingResponse()
     msg = resp.message()
