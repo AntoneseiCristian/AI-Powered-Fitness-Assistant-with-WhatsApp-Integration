@@ -9,6 +9,7 @@ from language_model import get_response
 from utils import calculate_bmi, get_recommendation, calculate_recommended_bmi_and_weight
 from werkzeug.security import generate_password_hash, check_password_hash
 from twilio.twiml.messaging_response import MessagingResponse
+from flask import current_app
 
 main = Blueprint('main', __name__)
 
@@ -190,3 +191,7 @@ def receive_wapp_messages():
 def setlang(lang):
     session['lang'] = lang
     return redirect(request.referrer or url_for('main.index'))
+
+@main.route('/configure_twilio')
+def configure_twilio():
+    return render_template('configure_twilio.html', public_url=current_app.config.get('PUBLIC_URL'))

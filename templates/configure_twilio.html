@@ -1,0 +1,11 @@
+    {% extends "base.html" %}
+
+    {% block content %}
+    <h1>Configure Twilio</h1>
+    <p>After creating an account on Twilio, you need to access the following link:</p>
+    <p><a href="https://console.twilio.com/us1/develop/sms/try-it-out/whatsapp-learn?frameUrl=%2Fconsole%2Fsms%2Fwhatsapp%2Flearn%3Fx-target-region%3Dus1" target="_blank">https://www.twilio.com/console/whatsapp/sandbox</a></p>
+    <p>Configure the Sandbox for Wapp integration</p>
+    <p>Copy the Public Url in the When a message comes in field: </p>
+    <p>"{{ public_url }}/receive-wapp-messages"</p>
+    <p><img src="{{ url_for('static', filename='images/configure_twillio.PNG') }}" alt="Your Image" style="width:50%;"></p>
+    {% endblock %}
