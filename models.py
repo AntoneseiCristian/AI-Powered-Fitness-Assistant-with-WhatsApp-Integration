@@ -9,6 +9,7 @@ class BMIRecord(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     date = db.Column(db.DateTime, default=datetime.utcnow)
 
+
     def __repr__(self):
         return f'<BMIRecord {self.bmi} on {self.date}>'
 

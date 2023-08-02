@@ -95,10 +95,17 @@ def profile():
             profile = UserProfile(user_id=current_user.id)
         # Update the profile with the form data
         form.populate_obj(profile)
+
+        # Save the account_sid and auth_token to the profile
+        profile.account_sid = form.account_sid.data
+        profile.auth_token = form.auth_token.data
+
         db.session.add(profile)
         db.session.commit()
         flash('Profile saved successfully.')
         return redirect(url_for('main.index'))
+    form.account_sid.data = profile.account_sid if profile else ''
+    form.auth_token.data = profile.auth_token if profile else ''
     return render_template('profile.html', form=form)
 
 @main.route('/message', methods=['GET', 'POST'])

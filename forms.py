@@ -9,4 +9,6 @@ class ProfileForm(FlaskForm):
     gender = SelectField('Gender', choices=[('male', 'Male'), ('female', 'Female')])
     activity_level = SelectField('Activity Level', choices=[('low', 'Low'), ('medium', 'Medium'), ('high', 'High')])
     phone_number = StringField('Phone Number')
+    account_sid = StringField('Account SID')
+    auth_token = StringField('Auth Token')
     submit = SubmitField('Save')

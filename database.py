@@ -11,4 +11,5 @@ class UserProfile(db.Model):
     gender = db.Column(db.String(10))
     activity_level = db.Column(db.String(10))
     phone_number = db.Column(db.String(20), unique=True)  # New field
-
+    account_sid = db.Column(db.String(50)) 
+    auth_token = db.Column(db.String(50))

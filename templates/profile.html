@@ -75,6 +75,14 @@ Profile
             {{ form.activity_level() }}
         </div>
         <div class="form-group">
+    {{ form.account_sid.label }}<br>
+    {{ form.account_sid() }}
+</div>
+<div class="form-group">
+    {{ form.auth_token.label }}<br>
+    {{ form.auth_token() }}
+</div>
+        <div class="form-group">
     {{ form.phone_number.label }}<br>
     {{ form.phone_number() }}
 </div>
