@@ -23,6 +23,9 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
 }
 
 form {
@@ -80,10 +83,6 @@ p {
     background-color: #45a049;
 }
 
-body {
-    font-family: Arial, sans-serif;
-}
-
 .history-page .container {
     width: 80%;
     margin: auto;
@@ -115,19 +114,38 @@ body {
     background-color: #f2f2f2;
 }
 
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
 
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
 
-        .btn-danger {
-            background-color: #dc3545;
-            border-color: #dc3545;
-            color: white;
-        }
-        .btn-danger:hover {
-            background-color: #c82333;
-            border-color: #bd2130;
-        }
-        .no-style {
-            background: none;
-            padding: 0;
-            box-shadow: none;
-        }
+.no-style {
+    background: none;
+    padding: 0;
+    box-shadow: none;
+}
+
+.step {
+    margin-bottom: 2em;
+}
+
+.copy-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.highlighted-text {
+    margin-right: 1em;
+    font-weight: bold;
+}
+
+#copy-button {
+    padding: 0.5em 1em;
+}

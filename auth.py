@@ -16,7 +16,7 @@ def landing():
         user = User.query.filter_by(username=username).first()
         if user and check_password_hash(user.password, password):
             login_user(user)
-            return redirect(url_for('main.index'))
+            return redirect(url_for('main.configure_twilio'))
         flash('Login failed. Check your username and/or password.', 'danger')
     return render_template('landing.html')
 

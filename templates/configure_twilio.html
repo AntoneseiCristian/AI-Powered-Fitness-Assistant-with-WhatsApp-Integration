@@ -1,11 +1,39 @@
-    {% extends "base.html" %}
+{% extends "base.html" %}
 
-    {% block content %}
+{% block content %}
+<div class="container">
     <h1>Configure Twilio</h1>
-    <p>After creating an account on Twilio, you need to access the following link:</p>
-    <p><a href="https://console.twilio.com/us1/develop/sms/try-it-out/whatsapp-learn?frameUrl=%2Fconsole%2Fsms%2Fwhatsapp%2Flearn%3Fx-target-region%3Dus1" target="_blank">https://www.twilio.com/console/whatsapp/sandbox</a></p>
-    <p>Configure the Sandbox for Wapp integration</p>
-    <p>Copy the Public Url in the When a message comes in field: </p>
-    <p>"{{ public_url }}/receive-wapp-messages"</p>
-    <p><img src="{{ url_for('static', filename='images/configure_twillio.PNG') }}" alt="Your Image" style="width:50%;"></p>
-    {% endblock %}
+    <div class="step">
+        <p>Step 1: Create an account on Twilio if you haven't done so already.</p>
+    </div>
+    <div class="step">
+        <p>Step 2: Copy the following Public URL:</p>
+        <div class="copy-container">
+            <input type="text" value="{{ public_url }}/receive-wapp-messages" id="public-url" readonly>
+            <button id="copy-button" class="btn">Copy</button>
+        </div>
+    </div>
+    <div class="step">
+        <p>Step 3: Access the following link to configure the Sandbox for WhatsApp integration:</p>
+        <p><a href="https://console.twilio.com/us1/develop/sms/try-it-out/whatsapp-learn?frameUrl=%2Fconsole%2Fsms%2Fwhatsapp%2Flearn%3Fx-target-region%3Dus1" target="_blank">https://www.twilio.com/console/whatsapp/sandbox</a></p>
+        <p>Paste the copied Public URL into the "When a message comes in" field.</p>
+    </div>
+    <p><img src="{{ url_for('static', filename='images/configure_twillio.PNG') }}" alt="Your Image" style="width:80%;"></p>
+    <div class="step">
+        <p>Step 4: In the profile page, complete the Twilio account_sid and account_token fields.</p>
+        <a href="{{ url_for('main.profile') }}" class="btn">Go to Profile Page</a>
+    </div>
+
+</div>
+{% endblock %}
+
+<script>
+document.getElementById('copy-button').addEventListener('click', function() {
+    var text = document.getElementById('public-url').value;
+    navigator.clipboard.writeText(text).then(function() {
+        alert('URL copied to clipboard');
+    }).catch(function() {
+        alert('Failed to copy URL');
+    });
+});
+</script>
