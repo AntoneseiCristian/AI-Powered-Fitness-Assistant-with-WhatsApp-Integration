@@ -9,7 +9,7 @@
     <form action="/index" method="post">
         <input type="number" name="weight" step="0.1" placeholder="{{ _('Weight in kg') }}" required>
         <input type="number" name="height" placeholder="{{ _('Height in cm') }}" value="{{ height }}" required>
-        <input type="date" name="previous_date" placeholder="{{ _('Previous Date') }}">
+        <input type="date" name="previous_date" id="previous_date" placeholder="{{ _('Previous Date') }}">
         <input type="submit" value="{{ _('Calculate BMI') }}">
     </form>
     <div class="result">
